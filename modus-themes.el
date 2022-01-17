@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.0.0
-;; Last-Modified: <2022-01-17 14:41:28 +0200>
+;; Last-Modified: <2022-01-17 17:54:54 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -39,6 +39,7 @@
 ;;     modus-themes-org-agenda                     (alist)
 ;;     modus-themes-bold-constructs                (boolean)
 ;;     modus-themes-deuteranopia                   (boolean)
+;;     modus-themes-ediff-neutral                  (boolean)
 ;;     modus-themes-inhibit-reload                 (boolean)
 ;;     modus-themes-italic-constructs              (boolean)
 ;;     modus-themes-mixed-fonts                    (boolean)
@@ -412,10 +413,10 @@ cover the blue-cyan-magenta side of the spectrum."
     ;; highlighted constructs; they must either be used as pairs based
     ;; on their name or each can be combined with {fg,bg}-{main,alt,dim}
     ;; always in accordance with their role as background or foreground
-    (bg-special-cold . "#dde3f4") (fg-special-cold . "#093060")
-    (bg-special-mild . "#c4ede0") (fg-special-mild . "#184034")
-    (bg-special-warm . "#f0e0d4") (fg-special-warm . "#5d3026")
-    (bg-special-calm . "#f8ddea") (fg-special-calm . "#61284f")
+    (bg-special-cold . "#dde3f4") (bg-special-faint-cold . "#f0f1ff") (fg-special-cold . "#093060")
+    (bg-special-mild . "#c4ede0") (bg-special-faint-mild . "#ebf5eb") (fg-special-mild . "#184034")
+    (bg-special-warm . "#f0e0d4") (bg-special-faint-warm . "#fef2ea") (fg-special-warm . "#5d3026")
+    (bg-special-calm . "#f8ddea") (bg-special-faint-calm . "#faeff9") (fg-special-calm . "#61284f")
     ;; foregrounds that can be combined with bg-main, bg-dim, bg-alt
     (red . "#a60000")
     (red-alt . "#972500")
@@ -653,10 +654,10 @@ symbol and the latter as a string.")
     ;; highlighted constructs; they must either be used as pairs based
     ;; on their name or each can be combined with {fg,bg}-{main,alt,dim}
     ;; always in accordance with their role as background or foreground
-    (bg-special-cold . "#203448") (fg-special-cold . "#c6eaff")
-    (bg-special-mild . "#00322e") (fg-special-mild . "#bfebe0")
-    (bg-special-warm . "#382f27") (fg-special-warm . "#f8dec0")
-    (bg-special-calm . "#392a48") (fg-special-calm . "#fbd6f4")
+    (bg-special-cold . "#203448") (bg-special-faint-cold . "#0f1932") (fg-special-cold . "#c6eaff")
+    (bg-special-mild . "#00322e") (bg-special-faint-mild . "#001f1a") (fg-special-mild . "#bfebe0")
+    (bg-special-warm . "#382f27") (bg-special-faint-warm . "#241613") (fg-special-warm . "#f8dec0")
+    (bg-special-calm . "#392a48") (bg-special-faint-calm . "#221332") (fg-special-calm . "#fbd6f4")
     ;; foregrounds that can be combined with bg-main, bg-dim, bg-alt
     (red . "#ff8059")
     (red-alt . "#ef8b50")
@@ -2408,6 +2409,25 @@ interest of optimizing for such a use-case."
   :initialize #'custom-initialize-default
   :link '(info-link "(modus-themes) Diffs"))
 
+(defcustom modus-themes-ediff-neutral nil
+  "When non-nil, Ediff does not use typical diff colors.
+By default (nil), Ediff uses whatever style is specified in
+`modus-themes-diffs'.  This practically means that its buffers
+have red, green, and yellow colors OR red, blue, yellow when
+`modus-themes-deuteranopia' is non-nil.
+
+With non-nil, more neutral background colors are used in
+accordance with a workflow that prioritises comparing regions
+instead of thinking of them in terms of standard diffs as
+additions/removals."
+  :group 'modus-themes
+  :package-version '(modus-themes . "2.1.0")
+  :version "29.1"
+  :type 'boolean
+  :set #'modus-themes--set-option
+  :initialize #'custom-initialize-default
+  :link '(info-link "(modus-themes) Diffs"))
+
 (defcustom modus-themes-completions nil
   "Control the style of the completion framework's interface.
 
@@ -3630,6 +3650,12 @@ unspecified."
       ('desaturated (list :background altbg :foreground altfg))
       ('bg-only (list :background altbg :foreground (if bg-only-fg altfg 'unspecified)))
       (_ (list :background mainbg :foreground mainfg)))))
+
+(defun modus-themes--ediff (defaultface bg)
+  "Use DEFAULTFACE or BG for Ediff."
+  (if modus-themes-ediff-neutral
+      (list :background bg)
+    (list :inherit defaultface)))
 
 (defun modus-themes--deuteran (deuteran main)
   "Determine whether to color-code success as DEUTERAN or MAIN."
@@ -4980,20 +5006,20 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(ebdb-phone-default ((,class :foreground ,cyan)))
     `(eieio-custom-slot-tag-face ((,class :foreground ,red-alt)))
 ;;;;; ediff
-    `(ediff-current-diff-A ((,class :inherit modus-themes-diff-removed)))
+    `(ediff-current-diff-A ((,class ,@(modus-themes--ediff 'modus-themes-diff-removed bg-special-faint-cold))))
     `(ediff-current-diff-Ancestor ((,class ,@(modus-themes--diff
                                               bg-special-cold fg-special-cold
                                               blue-nuanced-bg blue))))
-    `(ediff-current-diff-B ((,class :inherit modus-themes-diff-added)))
-    `(ediff-current-diff-C ((,class :inherit modus-themes-diff-changed)))
+    `(ediff-current-diff-B ((,class ,@(modus-themes--ediff 'modus-themes-diff-added bg-special-faint-warm))))
+    `(ediff-current-diff-C ((,class ,@(modus-themes--ediff 'modus-themes-diff-changed bg-special-faint-calm))))
     `(ediff-even-diff-A ((,class :background ,bg-alt)))
     `(ediff-even-diff-Ancestor ((,class :background ,bg-alt)))
     `(ediff-even-diff-B ((,class :background ,bg-alt)))
     `(ediff-even-diff-C ((,class :background ,bg-alt)))
-    `(ediff-fine-diff-A ((,class :inherit modus-themes-diff-refine-removed)))
+    `(ediff-fine-diff-A ((,class ,@(modus-themes--ediff 'modus-themes-diff-refine-removed bg-special-cold))))
     `(ediff-fine-diff-Ancestor ((,class :inherit modus-themes-refine-cyan)))
-    `(ediff-fine-diff-B ((,class :inherit modus-themes-diff-refine-added)))
-    `(ediff-fine-diff-C ((,class :inherit modus-themes-diff-refine-changed)))
+    `(ediff-fine-diff-B ((,class ,@(modus-themes--ediff 'modus-themes-diff-refine-added bg-special-warm))))
+    `(ediff-fine-diff-C ((,class ,@(modus-themes--ediff 'modus-themes-diff-refine-changed bg-special-calm))))
     `(ediff-odd-diff-A ((,class :inherit ediff-even-diff-A)))
     `(ediff-odd-diff-Ancestor ((,class :inherit ediff-even-diff-Ancestor)))
     `(ediff-odd-diff-B ((,class :inherit ediff-even-diff-B)))
