@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 12:02:15 +0200>
+;; Last-Modified: <2022-02-18 12:09:54 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -6375,7 +6375,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(markup-verbatim-face ((,class :inherit modus-themes-fixed-pitch :background ,bg-alt)))
 ;;;;; mct
     `(mct-highlight-candidate ((,class ,@(modus-themes--completion
-                                          'selection bg-completion-subtle fg-main
+                                          'selection bg-completion-subtle 'unspecified
                                           bg-completion 'unspecified))))
 ;;;;; mentor
     `(mentor-download-message ((,class :foreground ,fg-special-warm)))
