@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 17:39:56 +0200>
+;; Last-Modified: <2022-02-18 17:44:34 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -4410,16 +4410,16 @@ by virtue of calling either of `modus-themes-load-operandi' and
                   magenta-subtle-bg magenta-intense))))
     `(modus-themes-completion-match-1
       ((,class ,@(modus-themes--completion
+                  'matches bg-special-faint-cold cyan
+                  cyan-subtle-bg cyan-intense))))
+    `(modus-themes-completion-match-2
+      ((,class ,@(modus-themes--completion
                   'matches bg-special-faint-mild green
                   green-subtle-bg green-intense))))
-    `(modus-themes-completion-match-2
+    `(modus-themes-completion-match-3
       ((,class ,@(modus-themes--completion
                   'matches bg-special-faint-warm yellow
                   yellow-subtle-bg orange-intense))))
-    `(modus-themes-completion-match-3
-      ((,class ,@(modus-themes--completion
-                  'matches bg-special-faint-cold cyan
-                  cyan-subtle-bg cyan-intense))))
     `(modus-themes-completion-selected
       ((,class ,@(modus-themes--completion
                   'selection bg-completion-subtle 'unspecified
