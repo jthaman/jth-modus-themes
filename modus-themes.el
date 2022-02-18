@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 13:02:49 +0200>
+;; Last-Modified: <2022-02-18 13:22:08 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -4867,13 +4867,8 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(compilation-warning ((,class :inherit modus-themes-bold :foreground ,yellow-alt)))
 ;;;;; completions
     `(completions-annotations ((,class :inherit modus-themes-slant :foreground ,cyan-faint)))
-    `(completions-common-part ((,class ,@(modus-themes--standard-completions
-                                          blue-alt bg-special-mild fg-special-mild
-                                          cyan-refine-bg cyan-refine-fg))))
-    `(completions-first-difference ((,class :inherit bold
-                                            ,@(modus-themes--standard-completions
-                                               magenta-alt bg-special-calm fg-special-calm
-                                               magenta-intense-bg fg-main))))
+    `(completions-common-part ((,class :inherit modus-themes-completion-match-0)))
+    `(completions-first-difference ((,class :inherit modus-themes-completion-match-0)))
 ;;;;; consult
     `(consult-async-running ((,class :inherit bold :foreground ,blue)))
     `(consult-async-split ((,class :foreground ,magenta-alt)))
@@ -5504,10 +5499,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(flyspell-duplicate ((,class :inherit modus-themes-lang-warning)))
     `(flyspell-incorrect ((,class :inherit modus-themes-lang-error)))
 ;;;;; flx
-    `(flx-highlight-face ((,class ,@(modus-themes--extra-completions
-                                     'modus-themes-intense-magenta
-                                     'modus-themes-subtle-magenta
-                                     'modus-themes-special-calm))))
+    `(flx-highlight-face ((,class ((,class :inherit modus-themes-completion-match-0)))))
 ;;;;; freeze-it
     `(freeze-it-show ((,class :background ,bg-dim :foreground ,fg-special-warm)))
 ;;;;; frog-menu
@@ -5860,12 +5852,12 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(hydra-face-red ((,class :inherit bold :foreground ,red-faint)))
     `(hydra-face-teal ((,class :inherit bold :foreground ,cyan-alt-other)))
 ;;;;; icomplete
-    `(icomplete-first-match ((,class :inherit modus-themes-completion-standard-first-match)))
-    `(icomplete-selected-match ((,class :inherit modus-themes-completion-standard-selected)))
+    `(icomplete-first-match ((,class :inherit modus-themes-completion-match-0)))
+    `(icomplete-selected-match ((,class :inherit modus-themes-completion-selected)))
 ;;;;; icomplete-vertical
     `(icomplete-vertical-separator ((,class :inherit shadow)))
 ;;;;; ido-mode
-    `(ido-first-match ((,class :inherit modus-themes-completion-standard-first-match)))
+    `(ido-first-match ((,class :inherit modus-themes-completion-selected)))
     `(ido-incomplete-regexp ((,class :inherit error)))
     `(ido-indicator ((,class :inherit modus-themes-subtle-yellow)))
     `(ido-only-match ((,class :inherit ido-first-match)))
@@ -6938,16 +6930,8 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(selectrum-quick-keys-match
       ((,class :inherit (bold modus-themes-search-success))))
 ;;;;; selectrum-prescient
-    `(selectrum-prescient-primary-highlight
-      ((,class :inherit bold
-               ,@(modus-themes--standard-completions
-                  magenta-alt bg-special-calm fg-special-calm
-                  magenta-refine-bg magenta-refine-fg))))
-    `(selectrum-prescient-secondary-highlight
-      ((,class :inherit bold
-               ,@(modus-themes--standard-completions
-                  cyan-alt-other bg-special-cold fg-special-cold
-                  cyan-refine-bg cyan-refine-fg))))
+    `(selectrum-prescient-primary-highlight ((,class :inherit modus-themes-completion-match-0)))
+    `(selectrum-prescient-secondary-highlight ((,class :inherit modus-themes-completion-match-1)))
 ;;;;; semantic
     `(semantic-complete-inline-face ((,class :foreground ,fg-special-warm :underline t)))
     `(semantic-decoration-on-fileless-includes ((,class :inherit modus-themes-refine-green)))
