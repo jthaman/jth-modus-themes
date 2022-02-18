@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 13:48:49 +0200>
+;; Last-Modified: <2022-02-18 14:06:58 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -5766,7 +5766,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(helm-ff-suid ((,class :inherit modus-themes-special-warm)))
     `(helm-ff-symlink ((,class :inherit modus-themes-link-symlink)))
     `(helm-ff-truename ((,class :foreground ,blue-alt-other)))
-    `(helm-fd-finish ((,class :foreground ,green-active)))
+    `(helm-fd-finish ((,class :inherit success)))
     `(helm-grep-cmd-line ((,class :foreground ,yellow-alt-other)))
     `(helm-grep-file ((,class :inherit bold :foreground ,fg-special-cold)))
     `(helm-grep-finish ((,class :inherit bold)))
