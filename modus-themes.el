@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 17:36:38 +0200>
+;; Last-Modified: <2022-02-18 17:39:56 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -4848,7 +4848,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
 ;;;;; completions
     `(completions-annotations ((,class :inherit modus-themes-slant :foreground ,cyan-faint)))
     `(completions-common-part ((,class :inherit modus-themes-completion-match-0)))
-    `(completions-first-difference ((,class :inherit modus-themes-completion-match-0)))
+    `(completions-first-difference ((,class :inherit modus-themes-completion-match-1)))
 ;;;;; consult
     `(consult-async-running ((,class :inherit bold :foreground ,blue)))
     `(consult-async-split ((,class :foreground ,magenta-alt)))
