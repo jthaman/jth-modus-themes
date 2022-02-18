@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 14:06:58 +0200>
+;; Last-Modified: <2022-02-18 14:09:37 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -1609,34 +1609,24 @@ The actual styling of the face is done by `modus-themes-faces'."
 The actual styling of the face is done by `modus-themes-faces'."
   :group 'modus-themes-faces)
 
-(defface modus-themes-completion-standard-first-match nil
-  "Face for the Icomplete/Ido style first match.
-The actual styling of the face is done by `modus-themes-faces'."
-  :group 'modus-themes-faces)
-
 (define-obsolete-face-alias
  'modus-themes-completion-standard-first-match
  'modus-themes-completion-selection
  "2.2.0")
-
-(defface modus-themes-completion-standard-selected nil
-  "Face for the standard completion UI current selection.
-The actual styling of the face is done by `modus-themes-faces'."
-  :group 'modus-themes-faces)
 
 (define-obsolete-face-alias
  'modus-themes-completion-standard-selected
  'modus-themes-completion-selection
  "2.2.0")
 
-(defface modus-themes-completion-extra-selected nil
-  "Face for the extra completion UI current selection.
-The actual styling of the face is done by `modus-themes-faces'."
-  :group 'modus-themes-faces)
-
 (define-obsolete-face-alias
  'modus-themes-completion-extra-selected
  'modus-themes-completion-selection
+ "2.2.0")
+
+(define-obsolete-face-alias
+ 'modus-themes-completion-key-binding
+ 'modus-themes-key-binding
  "2.2.0")
 
 (defface modus-themes-completion-selected nil
@@ -1663,16 +1653,6 @@ The actual styling of the face is done by `modus-themes-faces'."
   "Face for completions matches 3.
 The actual styling of the face is done by `modus-themes-faces'."
   :group 'modus-themes-faces)
-
-(defface modus-themes-completion-key-binding nil
-  "Face for key bindings in a completion UI context.
-The actual styling of the face is done by `modus-themes-faces'."
-  :group 'modus-themes-faces)
-
-(define-obsolete-face-alias
- 'modus-themes-completion-key-binding
- 'modus-themes-key-binding
- "2.2.0")
 
 (defface modus-themes-box-button nil
   "Face for widget buttons (e.g. in the Custom UI).
