@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 13:31:32 +0200>
+;; Last-Modified: <2022-02-18 13:48:49 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -5751,7 +5751,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(helm-eshell-prompts-promptidx ((,class :foreground ,cyan-active)))
     `(helm-etags-file ((,class :foreground ,fg-dim :underline t)))
     `(helm-ff-backup-file ((,class :inherit shadow)))
-    `(helm-ff-denied ((,class :inherit modus-themes-intense-red))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-ff-denied ((,class :inherit modus-themes-intense-red)))
     `(helm-ff-directory ((,class :inherit helm-buffer-directory)))
     `(helm-ff-dirs ((,class :inherit bold :foreground ,blue-alt-other)))
     `(helm-ff-dotted-directory ((,class :inherit bold :background ,bg-alt :foreground ,fg-alt)))
@@ -5760,30 +5760,30 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(helm-ff-file ((,class :foreground ,fg-main)))
     `(helm-ff-file-extension ((,class :foreground ,fg-special-warm)))
     `(helm-ff-invalid-symlink ((,class :inherit modus-themes-link-broken)))
-    `(helm-ff-pipe ((,class :inherit modus-themes-special-calm))) ; TODO 2022-02-18: make sure it is correct
-    `(helm-ff-prefix ((,class :inherit modus-themes-special-warm))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-ff-pipe ((,class :inherit modus-themes-special-calm)))
+    `(helm-ff-prefix ((,class :inherit modus-themes-special-warm)))
     `(helm-ff-socket ((,class :foreground ,red-alt-other)))
-    `(helm-ff-suid ((,class :inherit modus-themes-special-warm))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-ff-suid ((,class :inherit modus-themes-special-warm)))
     `(helm-ff-symlink ((,class :inherit modus-themes-link-symlink)))
     `(helm-ff-truename ((,class :foreground ,blue-alt-other)))
     `(helm-fd-finish ((,class :foreground ,green-active)))
     `(helm-grep-cmd-line ((,class :foreground ,yellow-alt-other)))
     `(helm-grep-file ((,class :inherit bold :foreground ,fg-special-cold)))
-    `(helm-grep-finish ((,class :foreground ,green-active)))
+    `(helm-grep-finish ((,class :inherit bold)))
     `(helm-grep-lineno ((,class :foreground ,fg-special-warm)))
     `(helm-grep-match ((,class :inherit modus-themes-special-calm)))
     `(helm-header ((,class :inherit bold :foreground ,fg-special-cold)))
     `(helm-header-line-left-margin ((,class :inherit bold :foreground ,yellow-intense)))
-    `(helm-history-deleted ((,class :inherit modus-themes-special-warm))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-history-deleted ((,class :inherit modus-themes-special-warm)))
     `(helm-history-remote ((,class :foreground ,red-alt-other)))
-    `(helm-lisp-completion-info ((,class :inherit compilation-info)))
-    `(helm-lisp-show-completion ((,class :inherit modus-themes-special-warm))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-lisp-completion-info ((,class :inherit modus-themes-bold :foreground ,fg-special-cold)))
+    `(helm-lisp-show-completion ((,class :inherit modus-themes-special-warm)))
     `(helm-locate-finish ((,class :inherit success)))
     `(helm-match ((,class :inherit modus-themes-completion-match-0)))
     `(helm-match-item ((,class :inherit helm-match)))
     `(helm-minibuffer-prompt ((,class :inherit modus-themes-prompt)))
     `(helm-moccur-buffer ((,class :inherit button :foreground ,cyan-alt-other)))
-    `(helm-mode-prefix ((,class :inherit modus-themes-special-calm))) ; TODO 2022-02-18: make sure it is correct
+    `(helm-mode-prefix ((,class :inherit modus-themes-special-calm)))
     `(helm-non-file-buffer ((,class :inherit shadow)))
     `(helm-prefarg ((,class :foreground ,red-active)))
     `(helm-resume-need-update ((,class :inherit modus-themes-special-calm)))
@@ -5809,7 +5809,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
 ;;;;; helm-switch-shell
     `(helm-switch-shell-new-shell-face ((,class :inherit modus-themes-completion-match-0)))
 ;;;;; helm-xref
-    `(helm-xref-file-name ((,class :inherit compilation-info)))
+    `(helm-xref-file-name ((,class :inherit modus-themes-bold :foreground ,fg-special-cold)))
 ;;;;; helpful
     `(helpful-heading ((,class :inherit modus-themes-heading-1)))
 ;;;;; highlight region or ad-hoc regexp
