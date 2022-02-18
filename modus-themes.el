@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 14:09:37 +0200>
+;; Last-Modified: <2022-02-18 16:10:54 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -2485,7 +2485,7 @@ interest of optimizing for such a use-case."
   :link '(info-link "(modus-themes) Diffs"))
 
 (defconst modus-themes--completions-properties
-  '(set "Properties" :greedy t
+  '(set :tag "Properties" :greedy t
         (choice :tag "Font weight (must be supported by the typeface)"
                 (const :tag "Bold (default)" nil)
                 (const :tag "Thin" thin)
