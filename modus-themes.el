@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 11:10:02 +0200>
+;; Last-Modified: <2022-02-18 12:02:15 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -586,9 +586,8 @@ cover the blue-cyan-magenta side of the spectrum."
     (bg-region-accent . "#afafef")
     (bg-region-accent-subtle . "#efdfff")
 
-    (bg-completion-nuanced . "#dfe5ff")
-    (bg-completion-subtle . "#c3d4ff")
-    (bg-completion-intense . "#9fc8ff")
+    (bg-completion . "#d0d4ff")
+    (bg-completion-subtle . "#e3eaff")
 
     (bg-tab-active . "#f6f6f6")
     (bg-tab-inactive . "#b7b7b7")
@@ -833,9 +832,8 @@ symbol and the latter as a string.")
     (bg-region-accent . "#4f3d88")
     (bg-region-accent-subtle . "#240f55")
 
-    (bg-completion-nuanced . "#1a2854")
-    (bg-completion-subtle . "#282878")
-    (bg-completion-intense . "#323da2")
+    (bg-completion . "#282878")
+    (bg-completion-subtle . "#1a2854")
 
     (bg-tab-active . "#0e0e0e")
     (bg-tab-inactive . "#424242")
@@ -2475,7 +2473,7 @@ interest of optimizing for such a use-case."
                 (const :tag "Semi-bold" semibold)
                 (const :tag "Extra-bold" extrabold)
                 (const :tag "Ultra-bold" ultrabold))
-        (const :tag "With background" background)
+        (const :tag "With background color" background)
         (const :tag "Increased coloration" intense)
         (const :tag "Italic font (oblique or slanted forms)" italic)
         (const :tag "Underline" underline))
@@ -2508,17 +2506,17 @@ properties appear in the list is not significant:
 - `background' to add a background color (selection always has
   one);
 
-- `intense' to increase the overall coloration (amplifies the
-  `background', if present);
+- `intense' to increase the overall coloration (also amplifies
+  the `background', if present);
 
 - `underline' to draw a line below the characters;
 
 - `italic' to use a slanted font (italic or oblique forms);
 
 - The symbol of a font weight attribute such as `light',
-  `semibold', etc.  Valid symbols are defined in the variable
-  `modus-themes-weights'.  The absence of a weight means that
-  bold will be used.
+  `semibold', et cetera.  Valid symbols are defined in the
+  variable `modus-themes-weights'.  The absence of a weight means
+  that bold will be used.
 
 [Check the manual for tweaking `bold' and `italic' faces.]"
   :group 'modus-themes
@@ -4432,14 +4430,14 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(modus-themes-completion-standard-selected
       ((,class :inherit bold :foreground ,fg-main
                :background ,@(pcase modus-themes-completions
-                               ('super-opinionated (list bg-completion-intense))
+                               ('super-opinionated (list bg-completion))
                                ('opinionated (list bg-active))
-                               ('moderate (list bg-completion-nuanced))
+                               ('moderate (list bg-completion-subtle))
                                (_ (list bg-inactive))))))
     `(modus-themes-completion-extra-selected
       ((,class ,@(modus-themes--extra-completions-line
-                  fg-main bg-completion-intense bg-completion-subtle
-                  bg-completion-nuanced bg-active))))
+                  fg-main bg-completion bg-completion-subtle
+                  bg-completion-subtle bg-active))))
     `(modus-themes-completion-key-binding
       ((,class ,@(if (null modus-themes-completions)
                      (list :foreground magenta-alt-other)
@@ -6377,8 +6375,8 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(markup-verbatim-face ((,class :inherit modus-themes-fixed-pitch :background ,bg-alt)))
 ;;;;; mct
     `(mct-highlight-candidate ((,class ,@(modus-themes--completion
-                                          'selection bg-completion-nuanced fg-main
-                                          bg-completion-subtle 'unspecified))))
+                                          'selection bg-completion-subtle fg-main
+                                          bg-completion 'unspecified))))
 ;;;;; mentor
     `(mentor-download-message ((,class :foreground ,fg-special-warm)))
     `(mentor-download-name ((,class :foreground ,fg-special-cold)))
@@ -6577,17 +6575,17 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(rng-error ((,class :inherit error)))
 ;;;;; orderless
     `(orderless-match-face-0 ((,class ,@(modus-themes--completion
-                                         'matches bg-special-faint-cold blue
-                                         blue-subtle-bg blue-intense))))
-    `(orderless-match-face-1 ((,class ,@(modus-themes--completion
                                          'matches bg-special-faint-calm magenta-alt
                                          magenta-subtle-bg magenta-intense))))
-    `(orderless-match-face-2 ((,class ,@(modus-themes--completion
+    `(orderless-match-face-1 ((,class ,@(modus-themes--completion
                                          'matches bg-special-faint-mild green
                                          green-subtle-bg green-intense))))
-    `(orderless-match-face-3 ((,class ,@(modus-themes--completion
+    `(orderless-match-face-2 ((,class ,@(modus-themes--completion
                                          'matches bg-special-faint-warm yellow
                                          yellow-subtle-bg orange-intense))))
+    `(orderless-match-face-3 ((,class ,@(modus-themes--completion
+                                         'matches bg-special-faint-cold blue
+                                         blue-subtle-bg blue-intense))))
 ;;;;; org
     `(org-agenda-calendar-event ((,class ,@(modus-themes--agenda-event blue-alt))))
     `(org-agenda-calendar-sexp ((,class ,@(modus-themes--agenda-event blue-alt t))))
@@ -7411,8 +7409,8 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(vc-up-to-date-state ((,class :foreground ,fg-special-cold)))
 ;;;;; vertico
     `(vertico-current ((,class ,@(modus-themes--completion
-                                  'selection bg-completion-nuanced fg-main
-                                  bg-completion-intense 'unspecified))))
+                                  'selection bg-completion-subtle fg-main
+                                  bg-completion 'unspecified))))
 ;;;;; vertico-quick
     `(vertico-quick1 ((,class :inherit (modus-themes-intense-magenta bold))))
     `(vertico-quick2 ((,class :inherit (modus-themes-refine-cyan bold))))
