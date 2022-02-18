@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 16:10:54 +0200>
+;; Last-Modified: <2022-02-18 17:32:50 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -7323,7 +7323,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(vc-state-base ((,class :foreground ,fg-active)))
     `(vc-up-to-date-state ((,class :foreground ,fg-special-cold)))
 ;;;;; vertico
-    `(vertico-current ((,class ((,class :inherit modus-themes-completion-selected)))))
+    `(vertico-current ((,class :inherit modus-themes-completion-selected)))
 ;;;;; vertico-quick
     `(vertico-quick1 ((,class :inherit (modus-themes-intense-magenta bold))))
     `(vertico-quick2 ((,class :inherit (modus-themes-refine-cyan bold))))
