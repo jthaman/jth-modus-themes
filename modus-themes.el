@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-17 10:36:27 +0200>
+;; Last-Modified: <2022-02-18 11:10:02 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -2461,51 +2461,74 @@ interest of optimizing for such a use-case."
   :initialize #'custom-initialize-default
   :link '(info-link "(modus-themes) Diffs"))
 
+(defconst modus-themes--completions-properties
+  '(set "Properties" :greedy t
+        (choice :tag "Font weight (must be supported by the typeface)"
+                (const :tag "Bold (default)" nil)
+                (const :tag "Thin" thin)
+                (const :tag "Ultra-light" ultralight)
+                (const :tag "Extra-light" extralight)
+                (const :tag "Light" light)
+                (const :tag "Semi-light" semilight)
+                (const :tag "Regular" regular)
+                (const :tag "Medium" medium)
+                (const :tag "Semi-bold" semibold)
+                (const :tag "Extra-bold" extrabold)
+                (const :tag "Ultra-bold" ultrabold))
+        (const :tag "With background" background)
+        (const :tag "Increased coloration" intense)
+        (const :tag "Italic font (oblique or slanted forms)" italic)
+        (const :tag "Underline" underline))
+  "Helper variable for `modus-themes-completions'.")
+
 (defcustom modus-themes-completions nil
-  "Control the style of the completion framework's interface.
+  "Control the style of completion user interfaces.
 
-This is a special option that has different effects depending on
-the completion UI.  The interfaces can be grouped in two
-categories, based on their default aesthetics: (i) those that
-only or mostly use foreground colors for their interaction model,
-and (ii) those that combine background and foreground values for
-some of their metaphors.  The former category encompasses
-Icomplete, Ido, Selectrum, Vertico, Mct, as well as pattern
-matching styles like Orderless and Flx.  The latter covers Helm
-and Ivy.
+This affects Helm, Icomplete/Fido, Ido, Ivy, Mct, Selectrum,
+Vertico.  The value is an alist that accepts a (key . value)
+combination.  Here is a sample, followed by a description of all
+possible combinations:
 
-A value of nil (the default) will simply respect the metaphors of
-each completion framework.
+    (setq modus-themes-completions
+          (quote ((matches . (extrabold background intense))
+                  (selection . (semibold accented intense)))))
 
-Option `moderate' applies a combination of background and
-foreground that is fairly subtle.  For Icomplete and friends this
-constitutes a departure from their default aesthetics, however
-the difference is small.  While Helm and Ivy appear slightly
-different than their original looks, as they are toned down a
-bit.
+A `matches' key refers to the highlighted characters that
+correspond to the user's input.  By default (nil or an empty list
+value), they have a bold weight and a colored foreground.
 
-Option `opinionated' uses color combinations that refashion the
-completion UI.  For the Icomplete camp this means that intense
-background and foreground combinations are used: in effect their
-looks approximate those of Helm and Ivy in their original style.
-Whereas the other group of packages will revert to an even more
-nuanced aesthetic with some additional changes to the choice of
-hues.
+A `selection' key applies to the current line or currently
+matched candidate.  By default (nil or an empty list value) it
+has a subtle background and a bold weight.
 
-Option `super-opinionated' is like the `opinionated' though it
-has a more pronounced effect, especially on the color of the
-current line/candidate.
+Both keys accept the same list of properties, whose effects
+combine to new stylistic variants.  The order in which those
+properties appear in the list is not significant:
 
-To appreciate the scope of this customization option, you should
-spend some time with each of those presets."
+- `background' to add a background color (selection always has
+  one);
+
+- `intense' to increase the overall coloration (amplifies the
+  `background', if present);
+
+- `underline' to draw a line below the characters;
+
+- `italic' to use a slanted font (italic or oblique forms);
+
+- The symbol of a font weight attribute such as `light',
+  `semibold', etc.  Valid symbols are defined in the variable
+  `modus-themes-weights'.  The absence of a weight means that
+  bold will be used.
+
+[Check the manual for tweaking `bold' and `italic' faces.]"
   :group 'modus-themes
-  :package-version '(modus-themes . "2.1.0")
+  :package-version '(modus-themes . "2.2.0")
   :version "29.1"
-  :type '(choice
-          (const :format "[%v] %t\n" :tag "Respect the framework's established aesthetic (default)" nil)
-          (const :format "[%v] %t\n" :tag "Subtle backgrounds for various elements" moderate)
-          (const :format "[%v] %t\n" :tag "Alternative to the framework's looks" opinionated)
-          (const :format "[%v] %t\n" :tag "Radical alternative to the framework's looks" super-opinionated))
+  :type `(alist
+          :key-type (choice
+                     (const :tag "Matches" matches)
+                     (const :tag "Selection" selection))
+          :value-type ,modus-themes--completions-properties)
   :set #'modus-themes--set-option
   :initialize #'custom-initialize-default
   :link '(info-link "(modus-themes) Completion UIs"))
@@ -3675,6 +3698,47 @@ unspecified."
   (if modus-themes-deuteranopia
       (list deuteran)
     (list main)))
+
+(defun modus-themes--completion (key bg fg bgintense fgintense)
+  "Styles for `modus-themes-completions'.
+KEY is the key of a cons cell.  BG and FG are the main colors.
+BGINTENSE works with the main foreground.  FGINTENSE works on its
+own."
+  (let* ((var modus-themes-completions)
+         (properties (alist-get key var))
+         (selection (eq key 'selection))
+         (background (or selection (memq 'background properties)))
+         (base-fg (if selection fg 'unspecified))
+         (intense (memq 'intense properties))
+         (italic (memq 'italic properties))
+         (weight (modus-themes--weight properties))
+         (bold (when (and weight (eq weight 'bold)) 'bold)))
+    (list
+     :inherit
+     (cond
+      ((and italic weight (not (eq weight 'bold)))
+       'italic)
+      ((and weight (not (eq weight 'bold)))
+       'unspecified)
+      (italic 'bold-italic)
+      ('bold))
+     :background
+     (cond
+      ((and background intense)
+       bgintense)
+      (background bg)
+      ('unspecified))
+     :foreground
+     (cond
+      ((and background intense)
+       base-fg)
+      (background fg)
+      (intense fgintense)
+      (fg))
+     :underline
+     (if (memq 'underline properties) t 'unspecified)
+     :weight
+     (if (and weight (null bold)) weight 'unspecified))))
 
 (defun modus-themes--standard-completions (mainfg subtlebg subtlefg intensebg intensefg &optional superbg superfg)
   "Combinations for `modus-themes-completions'.
@@ -6312,7 +6376,9 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(markup-title-5-face ((,class :inherit modus-themes-heading-6)))
     `(markup-verbatim-face ((,class :inherit modus-themes-fixed-pitch :background ,bg-alt)))
 ;;;;; mct
-    `(mct-highlight-candidate ((,class :inherit modus-themes-completion-standard-selected)))
+    `(mct-highlight-candidate ((,class ,@(modus-themes--completion
+                                          'selection bg-completion-nuanced fg-main
+                                          bg-completion-subtle 'unspecified))))
 ;;;;; mentor
     `(mentor-download-message ((,class :foreground ,fg-special-warm)))
     `(mentor-download-name ((,class :foreground ,fg-special-cold)))
@@ -6510,22 +6576,18 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(nxml-ref ((,class :inherit modus-themes-bold :foreground ,fg-special-mild)))
     `(rng-error ((,class :inherit error)))
 ;;;;; orderless
-    `(orderless-match-face-0 ((,class :inherit bold
-                                      ,@(modus-themes--standard-completions
-                                         blue-alt-other bg-special-cold fg-special-cold
-                                         blue-refine-bg blue-refine-fg))))
-    `(orderless-match-face-1 ((,class :inherit bold
-                                      ,@(modus-themes--standard-completions
-                                         magenta-alt bg-special-calm fg-special-calm
-                                         magenta-refine-bg magenta-refine-fg))))
-    `(orderless-match-face-2 ((,class :inherit bold
-                                      ,@(modus-themes--standard-completions
-                                         green bg-special-mild fg-special-mild
-                                         green-refine-bg green-refine-fg))))
-    `(orderless-match-face-3 ((,class :inherit bold
-                                      ,@(modus-themes--standard-completions
-                                         yellow bg-special-warm fg-special-warm
-                                         yellow-refine-bg yellow-refine-fg))))
+    `(orderless-match-face-0 ((,class ,@(modus-themes--completion
+                                         'matches bg-special-faint-cold blue
+                                         blue-subtle-bg blue-intense))))
+    `(orderless-match-face-1 ((,class ,@(modus-themes--completion
+                                         'matches bg-special-faint-calm magenta-alt
+                                         magenta-subtle-bg magenta-intense))))
+    `(orderless-match-face-2 ((,class ,@(modus-themes--completion
+                                         'matches bg-special-faint-mild green
+                                         green-subtle-bg green-intense))))
+    `(orderless-match-face-3 ((,class ,@(modus-themes--completion
+                                         'matches bg-special-faint-warm yellow
+                                         yellow-subtle-bg orange-intense))))
 ;;;;; org
     `(org-agenda-calendar-event ((,class ,@(modus-themes--agenda-event blue-alt))))
     `(org-agenda-calendar-sexp ((,class ,@(modus-themes--agenda-event blue-alt t))))
@@ -7348,7 +7410,9 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(vc-state-base ((,class :foreground ,fg-active)))
     `(vc-up-to-date-state ((,class :foreground ,fg-special-cold)))
 ;;;;; vertico
-    `(vertico-current ((,class :inherit modus-themes-completion-standard-selected)))
+    `(vertico-current ((,class ,@(modus-themes--completion
+                                  'selection bg-completion-nuanced fg-main
+                                  bg-completion-intense 'unspecified))))
 ;;;;; vertico-quick
     `(vertico-quick1 ((,class :inherit (modus-themes-intense-magenta bold))))
     `(vertico-quick2 ((,class :inherit (modus-themes-refine-cyan bold))))
