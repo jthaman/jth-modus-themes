@@ -5948,8 +5948,6 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(ivy-minibuffer-match-face-2 ((,class :inherit modus-themes-completion-match-0)))
     `(ivy-minibuffer-match-face-3 ((,class :inherit modus-themes-completion-match-1)))
     `(ivy-minibuffer-match-face-4 ((,class :inherit modus-themes-completion-match-2)))
-    `(ivy-modified-buffer ((,class :inherit modus-themes-slant :foreground ,yellow)))
-    `(ivy-modified-outside-buffer ((,class :inherit modus-themes-slant :foreground ,red-alt)))
     `(ivy-org ((,class :foreground ,cyan-alt-other)))
     `(ivy-remote ((,class :foreground ,magenta)))
     `(ivy-separator ((,class :inherit shadow)))
