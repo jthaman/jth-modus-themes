@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-19 10:12:58 +0200>
+;; Last-Modified: <2022-02-19 10:18:54 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -35,6 +35,7 @@
 ;;
 ;; The themes share the following customization variables:
 ;;
+;;     modus-themes-completions                    (alist)
 ;;     modus-themes-headings                       (alist)
 ;;     modus-themes-org-agenda                     (alist)
 ;;     modus-themes-bold-constructs                (boolean)
@@ -45,7 +46,6 @@
 ;;     modus-themes-subtle-line-numbers            (boolean)
 ;;     modus-themes-variable-pitch-ui              (boolean)
 ;;     modus-themes-box-buttons                    (choice)
-;;     modus-themes-completions                    (choice)
 ;;     modus-themes-diffs                          (choice)
 ;;     modus-themes-fringes                        (choice)
 ;;     modus-themes-hl-line                        (choice)
