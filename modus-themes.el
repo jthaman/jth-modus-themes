@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-19 08:41:08 +0200>
+;; Last-Modified: <2022-02-19 10:12:58 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -2541,7 +2541,26 @@ accepts is as follows (order is not significant):
   variable `modus-themes-weights'.  The absence of a weight means
   that bold will be used.
 
-A `popup' key takes the same values as `selection'.
+The `popup' key takes the same values as `selection'.
+
+Apart from specfying each key separately, a fallback list is
+accepted.  This is only useful when the desired aesthetic is the
+same across all keys that are not explicitly referenced.  For
+example, this:
+
+    (setq modus-themes-completions
+          (quote ((t . (extrabold intense)))))
+
+Is the same as:
+
+    (setq modus-themes-completions
+          (quote ((matches . (extrabold intense))
+                  (selection . (extrabold intense))
+                  (popup . (extrabold intense)))))
+
+In the case of the fallback, any property that does not apply to
+the corresponding key is simply ignored (`matches' does not have
+`accented', `selection' and `popup' do not have `background').
 
 A concise expression of those associations can be written as
 follows, where the `car' is always the key and the `cdr' is the
@@ -3795,7 +3814,7 @@ BGINTENSE works with the main foreground.  FGINTENSE works on its
 own.  BGACCENT and BGACCENTINTENSE are colorful variants of the
 other backgrounds."
   (let* ((var modus-themes-completions)
-         (properties (alist-get key var))
+         (properties (or (alist-get key var) (alist-get t var)))
          (popup (eq key 'popup))
          (selection (eq key 'selection))
          (line (or popup selection))
