@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-19 07:30:43 +0200>
+;; Last-Modified: <2022-02-19 08:41:08 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -1634,6 +1634,11 @@ The actual styling of the face is done by `modus-themes-faces'."
 The actual styling of the face is done by `modus-themes-faces'."
   :group 'modus-themes-faces)
 
+(defface modus-themes-completion-selected-popup nil
+  "Face for current selection in completion UI popups.
+The actual styling of the face is done by `modus-themes-faces'."
+  :group 'modus-themes-faces)
+
 (defface modus-themes-completion-match-0 nil
   "Face for completions matches 0.
 The actual styling of the face is done by `modus-themes-faces'."
@@ -2487,14 +2492,15 @@ interest of optimizing for such a use-case."
 (defcustom modus-themes-completions nil
   "Control the style of completion user interfaces.
 
-This affects Helm, Icomplete/Fido, Ido, Ivy, Mct, Orderless,
-Selectrum, Vertico.  The value is an alist that takes the form of
-a (key . properties) combination.  Here is a sample, followed by
-a description of the particularities:
+This affects Company, Corfu, Flx, Helm, Icomplete/Fido, Ido, Ivy,
+Mct, Orderless, Selectrum, Vertico.  The value is an alist that
+takes the form of a (key . properties) combination.  Here is a
+sample, followed by a description of the particularities:
 
     (setq modus-themes-completions
           (quote ((matches . (extrabold background intense))
-                  (selection . (semibold accented intense)))))
+                  (selection . (semibold accented intense))
+                  (popup . (accented)))))
 
 A `matches' key refers to the highlighted characters that
 correspond to the user's input.  By default (nil or an empty
@@ -2535,16 +2541,22 @@ accepts is as follows (order is not significant):
   variable `modus-themes-weights'.  The absence of a weight means
   that bold will be used.
 
+A `popup' key takes the same values as `selection'.
+
 A concise expression of those associations can be written as
 follows, where the `car' is always the key and the `cdr' is the
 list of properties (whatever order they may appear in):
 
     (setq modus-themes-completions
           (quote ((matches extrabold background intense)
-                  (selection semibold accented intense))))
+                  (selection semibold accented intense)
+                  (popup accented))))
 
 Check the manual for tweaking `bold' and `italic' faces: Info
-node `(modus-themes) Configure bold and italic faces'."
+node `(modus-themes) Configure bold and italic faces'.
+
+Also refer to the Orderless documentation for its intersection
+with Company (if you choose to use those in tandem)."
   :group 'modus-themes
   :package-version '(modus-themes . "2.2.0")
   :version "29.1"
@@ -2571,6 +2583,25 @@ node `(modus-themes) Configure bold and italic faces'."
           (cons :tag "Selection"
                 (const selection)
                 (set :tag "Style of selection" :greedy t
+                     (choice :tag "Font weight (must be supported by the typeface)"
+                             (const :tag "Bold (default)" nil)
+                             (const :tag "Thin" thin)
+                             (const :tag "Ultra-light" ultralight)
+                             (const :tag "Extra-light" extralight)
+                             (const :tag "Light" light)
+                             (const :tag "Semi-light" semilight)
+                             (const :tag "Regular" regular)
+                             (const :tag "Medium" medium)
+                             (const :tag "Semi-bold" semibold)
+                             (const :tag "Extra-bold" extrabold)
+                             (const :tag "Ultra-bold" ultrabold))
+                     (const :tag "With accented background" accented)
+                     (const :tag "Increased coloration" intense)
+                     (const :tag "Italic font (oblique or slanted forms)" italic)
+                     (const :tag "Underline" underline)))
+          (cons :tag "Popup"
+                (const popup)
+                (set :tag "Style of completion pop-ups" :greedy t
                      (choice :tag "Font weight (must be supported by the typeface)"
                              (const :tag "Bold (default)" nil)
                              (const :tag "Thin" thin)
@@ -3765,8 +3796,10 @@ own.  BGACCENT and BGACCENTINTENSE are colorful variants of the
 other backgrounds."
   (let* ((var modus-themes-completions)
          (properties (alist-get key var))
+         (popup (eq key 'popup))
          (selection (eq key 'selection))
-         (background (or selection (memq 'background properties)))
+         (line (or popup selection))
+         (background (or line (memq 'background properties)))
          (base-fg (if selection fg 'unspecified))
          (accented (memq 'accented properties))
          (intense (memq 'intense properties))
@@ -3784,9 +3817,9 @@ other backgrounds."
       ('bold))
      :background
      (cond
-      ((and accented intense selection)
+      ((and accented intense line)
        bgaccentintense)
-      ((and accented selection)
+      ((and accented line)
        bgaccent)
       ((and background intense)
        bgintense)
@@ -4466,6 +4499,11 @@ by virtue of calling either of `modus-themes-load-operandi' and
                   'selection bg-inactive 'unspecified
                   bg-active 'unspecified
                   bg-completion-subtle bg-completion))))
+    `(modus-themes-completion-selected-popup
+      ((,class ,@(modus-themes--completion
+                  'popup bg-active 'unspecified
+                  bg-region 'unspecified
+                  bg-completion blue-intense-bg))))
 ;;;;; buttons
     `(modus-themes-box-button
       ((,class ,@(modus-themes--button bg-active bg-main bg-active-accent
@@ -4857,23 +4895,21 @@ by virtue of calling either of `modus-themes-load-operandi' and
 ;;;;; column-enforce-mode
     `(column-enforce-face ((,class :inherit modus-themes-refine-yellow)))
 ;;;;; company-mode
-    `(company-echo-common ((,class :foreground ,magenta-alt-other)))
+    `(company-echo-common ((,class :inherit modus-themes-completion-match-0)))
     `(company-preview ((,class :background ,bg-dim :foreground ,fg-dim)))
-    `(company-preview-common ((,class :foreground ,blue-alt)))
+    `(company-preview-common ((,class :inherit company-echo-common)))
     `(company-preview-search ((,class :inherit modus-themes-special-calm)))
     `(company-template-field ((,class :inherit modus-themes-intense-magenta)))
     `(company-tooltip ((,class :background ,bg-alt :foreground ,fg-alt)))
-    `(company-tooltip-annotation ((,class :inherit modus-themes-slant :foreground ,fg-special-cold)))
-    `(company-tooltip-annotation-selection ((,class :inherit bold :foreground ,fg-main)))
-    `(company-tooltip-common ((,class :inherit bold :foreground ,blue-alt)))
-    `(company-tooltip-common-selection ((,class :foreground ,fg-main)))
+    `(company-tooltip-annotation ((,class :inherit completions-annotations)))
+    `(company-tooltip-common ((,class :inherit company-echo-common)))
     `(company-tooltip-deprecated ((,class :inherit company-tooltip :strike-through t)))
-    `(company-tooltip-mouse ((,class :inherit modus-themes-intense-blue)))
+    `(company-tooltip-mouse ((,class :inherit highlight)))
     `(company-tooltip-scrollbar-thumb ((,class :background ,fg-active)))
     `(company-tooltip-scrollbar-track ((,class :background ,bg-active)))
     `(company-tooltip-search ((,class :inherit (modus-themes-search-success-lazy bold))))
     `(company-tooltip-search-selection ((,class :inherit (modus-themes-search-success bold) :underline t)))
-    `(company-tooltip-selection ((,class :inherit (modus-themes-subtle-cyan bold))))
+    `(company-tooltip-selection ((,class :inherit modus-themes-completion-selected-popup)))
 ;;;;; company-posframe
     `(company-posframe-active-backend-name ((,class :inherit bold :background ,bg-active :foreground ,blue-active)))
     `(company-posframe-inactive-backend-name ((,class :background ,bg-active :foreground ,fg-active)))
@@ -4905,7 +4941,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(consult-preview-error ((,class :inherit modus-themes-intense-red)))
     `(consult-preview-line ((,class :background ,bg-hl-alt-intense)))
 ;;;;; corfu
-    `(corfu-current ((,class :inherit bold :background ,cyan-subtle-bg)))
+    `(corfu-current ((,class :inherit modus-themes-completion-selected-popup)))
     `(corfu-bar ((,class :background ,fg-alt)))
     `(corfu-border ((,class :background ,bg-active)))
     `(corfu-default ((,class :background ,bg-alt)))
@@ -5976,7 +6012,6 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(ivy-subdir ((,class :foreground ,blue)))
     `(ivy-virtual ((,class :foreground ,magenta-alt-other)))
 ;;;;; ivy-posframe
-    `(ivy-posframe ((,class :background ,bg-dim :foreground ,fg-main)))
     `(ivy-posframe-border ((,class :background ,fg-window-divider-inner)))
     `(ivy-posframe-cursor ((,class :background ,fg-main :foreground ,bg-main)))
 ;;;;; jira (org-jira)
@@ -6806,9 +6841,9 @@ by virtue of calling either of `modus-themes-load-operandi' and
     `(pomidor-work-face ((,class :inherit modus-themes-grue)))
 ;;;;; popup
     `(popup-face ((,class :background ,bg-alt :foreground ,fg-main)))
-    `(popup-isearch-match ((,class :inherit (modus-themes-refine-cyan bold))))
-    `(popup-menu-mouse-face ((,class :inherit modus-themes-intense-blue)))
-    `(popup-menu-selection-face ((,class :inherit (modus-themes-subtle-cyan bold))))
+    `(popup-isearch-match ((,class :inherit (modus-themes-search-success bold))))
+    `(popup-menu-mouse-face ((,class :inherit highlight)))
+    `(popup-menu-selection-face ((,class :inherit modus-themes-completion-selected-popup)))
     `(popup-scroll-bar-background-face ((,class :background ,bg-active)))
     `(popup-scroll-bar-foreground-face ((,class :foreground ,fg-active)))
     `(popup-summary-face ((,class :background ,bg-active :foreground ,fg-inactive)))
