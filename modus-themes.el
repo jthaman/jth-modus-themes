@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-18 17:44:34 +0200>
+;; Last-Modified: <2022-02-19 07:30:43 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -2484,52 +2484,25 @@ interest of optimizing for such a use-case."
   :initialize #'custom-initialize-default
   :link '(info-link "(modus-themes) Diffs"))
 
-(defconst modus-themes--completions-properties
-  '(set :tag "Properties" :greedy t
-        (choice :tag "Font weight (must be supported by the typeface)"
-                (const :tag "Bold (default)" nil)
-                (const :tag "Thin" thin)
-                (const :tag "Ultra-light" ultralight)
-                (const :tag "Extra-light" extralight)
-                (const :tag "Light" light)
-                (const :tag "Semi-light" semilight)
-                (const :tag "Regular" regular)
-                (const :tag "Medium" medium)
-                (const :tag "Semi-bold" semibold)
-                (const :tag "Extra-bold" extrabold)
-                (const :tag "Ultra-bold" ultrabold))
-        (const :tag "With background color" background)
-        (const :tag "Increased coloration" intense)
-        (const :tag "Italic font (oblique or slanted forms)" italic)
-        (const :tag "Underline" underline))
-  "Helper variable for `modus-themes-completions'.")
-
 (defcustom modus-themes-completions nil
   "Control the style of completion user interfaces.
 
-This affects Helm, Icomplete/Fido, Ido, Ivy, Mct, Selectrum,
-Vertico.  The value is an alist that accepts a (key . value)
-combination.  Here is a sample, followed by a description of all
-possible combinations:
+This affects Helm, Icomplete/Fido, Ido, Ivy, Mct, Orderless,
+Selectrum, Vertico.  The value is an alist that takes the form of
+a (key . properties) combination.  Here is a sample, followed by
+a description of the particularities:
 
     (setq modus-themes-completions
           (quote ((matches . (extrabold background intense))
                   (selection . (semibold accented intense)))))
 
 A `matches' key refers to the highlighted characters that
-correspond to the user's input.  By default (nil or an empty list
-value), they have a bold weight and a colored foreground.
+correspond to the user's input.  By default (nil or an empty
+list), they have a bold weight and a colored foreground.  The
+list of properties may include any of the following symbols
+regardless of the order they may appear in:
 
-A `selection' key applies to the current line or currently
-matched candidate.  By default (nil or an empty list value) it
-has a subtle background and a bold weight.
-
-Both keys accept the same list of properties, whose effects
-combine to new stylistic variants.  The order in which those
-properties appear in the list is not significant:
-
-- `background' to add a background color (selection always has
-  one);
+- `background' to add a background color;
 
 - `intense' to increase the overall coloration (also amplifies
   the `background', if present);
@@ -2543,15 +2516,77 @@ properties appear in the list is not significant:
   variable `modus-themes-weights'.  The absence of a weight means
   that bold will be used.
 
-[Check the manual for tweaking `bold' and `italic' faces.]"
+A `selection' key applies to the current line or currently
+matched candidate, depending on the specifics of the User
+Interface.  By default (nil or an empty list), it has a subtle
+gray background and a bold weight.  The list of properties it
+accepts is as follows (order is not significant):
+
+- `accented' to make the background colorful instead of gray;
+
+- `intense' to increase the overall coloration;
+
+- `underline' to draw a line below the characters;
+
+- `italic' to use a slanted font (italic or oblique forms);
+
+- The symbol of a font weight attribute such as `light',
+  `semibold', et cetera.  Valid symbols are defined in the
+  variable `modus-themes-weights'.  The absence of a weight means
+  that bold will be used.
+
+A concise expression of those associations can be written as
+follows, where the `car' is always the key and the `cdr' is the
+list of properties (whatever order they may appear in):
+
+    (setq modus-themes-completions
+          (quote ((matches extrabold background intense)
+                  (selection semibold accented intense))))
+
+Check the manual for tweaking `bold' and `italic' faces: Info
+node `(modus-themes) Configure bold and italic faces'."
   :group 'modus-themes
   :package-version '(modus-themes . "2.2.0")
   :version "29.1"
-  :type `(alist
-          :key-type (choice
-                     (const :tag "Matches" matches)
-                     (const :tag "Selection" selection))
-          :value-type ,modus-themes--completions-properties)
+  :type `(set
+          (cons :tag "Matches"
+                (const matches)
+                (set :tag "Style of matches" :greedy t
+                     (choice :tag "Font weight (must be supported by the typeface)"
+                             (const :tag "Bold (default)" nil)
+                             (const :tag "Thin" thin)
+                             (const :tag "Ultra-light" ultralight)
+                             (const :tag "Extra-light" extralight)
+                             (const :tag "Light" light)
+                             (const :tag "Semi-light" semilight)
+                             (const :tag "Regular" regular)
+                             (const :tag "Medium" medium)
+                             (const :tag "Semi-bold" semibold)
+                             (const :tag "Extra-bold" extrabold)
+                             (const :tag "Ultra-bold" ultrabold))
+                     (const :tag "With added background" background)
+                     (const :tag "Increased coloration" intense)
+                     (const :tag "Italic font (oblique or slanted forms)" italic)
+                     (const :tag "Underline" underline)))
+          (cons :tag "Selection"
+                (const selection)
+                (set :tag "Style of selection" :greedy t
+                     (choice :tag "Font weight (must be supported by the typeface)"
+                             (const :tag "Bold (default)" nil)
+                             (const :tag "Thin" thin)
+                             (const :tag "Ultra-light" ultralight)
+                             (const :tag "Extra-light" extralight)
+                             (const :tag "Light" light)
+                             (const :tag "Semi-light" semilight)
+                             (const :tag "Regular" regular)
+                             (const :tag "Medium" medium)
+                             (const :tag "Semi-bold" semibold)
+                             (const :tag "Extra-bold" extrabold)
+                             (const :tag "Ultra-bold" ultrabold))
+                     (const :tag "With accented background" accented)
+                     (const :tag "Increased coloration" intense)
+                     (const :tag "Italic font (oblique or slanted forms)" italic)
+                     (const :tag "Underline" underline))))
   :set #'modus-themes--set-option
   :initialize #'custom-initialize-default
   :link '(info-link "(modus-themes) Completion UIs"))
@@ -3722,16 +3757,18 @@ unspecified."
       (list deuteran)
     (list main)))
 
-(defun modus-themes--completion (key bg fg bgintense fgintense)
+(defun modus-themes--completion (key bg fg bgintense fgintense &optional bgaccent bgaccentintense)
   "Styles for `modus-themes-completions'.
 KEY is the key of a cons cell.  BG and FG are the main colors.
 BGINTENSE works with the main foreground.  FGINTENSE works on its
-own."
+own.  BGACCENT and BGACCENTINTENSE are colorful variants of the
+other backgrounds."
   (let* ((var modus-themes-completions)
          (properties (alist-get key var))
          (selection (eq key 'selection))
          (background (or selection (memq 'background properties)))
          (base-fg (if selection fg 'unspecified))
+         (accented (memq 'accented properties))
          (intense (memq 'intense properties))
          (italic (memq 'italic properties))
          (weight (modus-themes--weight properties))
@@ -3747,6 +3784,10 @@ own."
       ('bold))
      :background
      (cond
+      ((and accented intense selection)
+       bgaccentintense)
+      ((and accented selection)
+       bgaccent)
       ((and background intense)
        bgintense)
       (background bg)
@@ -4422,8 +4463,9 @@ by virtue of calling either of `modus-themes-load-operandi' and
                   yellow-subtle-bg orange-intense))))
     `(modus-themes-completion-selected
       ((,class ,@(modus-themes--completion
-                  'selection bg-completion-subtle 'unspecified
-                  bg-completion 'unspecified))))
+                  'selection bg-inactive 'unspecified
+                  bg-active 'unspecified
+                  bg-completion-subtle bg-completion))))
 ;;;;; buttons
     `(modus-themes-box-button
       ((,class ,@(modus-themes--button bg-active bg-main bg-active-accent
