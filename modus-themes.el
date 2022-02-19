@@ -2502,7 +2502,7 @@ sample, followed by a description of the particularities:
                   (selection . (semibold accented intense))
                   (popup . (accented)))))
 
-A `matches' key refers to the highlighted characters that
+The `matches' key refers to the highlighted characters that
 correspond to the user's input.  By default (nil or an empty
 list), they have a bold weight and a colored foreground.  The
 list of properties may include any of the following symbols
@@ -2522,7 +2522,7 @@ regardless of the order they may appear in:
   variable `modus-themes-weights'.  The absence of a weight means
   that bold will be used.
 
-A `selection' key applies to the current line or currently
+The `selection' key applies to the current line or currently
 matched candidate, depending on the specifics of the User
 Interface.  By default (nil or an empty list), it has a subtle
 gray background and a bold weight.  The list of properties it
