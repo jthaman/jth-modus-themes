@@ -1112,9 +1112,8 @@ appear in:
 - ~italic~ to use a slanted font (italic or oblique forms);
 
 - The symbol of a font weight attribute such as ~light~, ~semibold~, et
-  cetera.  Valid symbols are defined in the variable
-  ~modus-themes-weights~.  The absence of a weight means that bold will
-  be used.
+  cetera.  Valid symbols are defined in the ~modus-themes-weights~
+  variable.  The absence of a weight means that bold will be used.
 
 The ~selection~ key applies to the current line or currently matched
 candidate, depending on the specifics of the User Interface.  By default
@@ -1131,9 +1130,8 @@ significant):
 - ~italic~ to use a slanted font (italic or oblique forms);
 
 - The symbol of a font weight attribute such as ~light~, ~semibold~, et
-  cetera.  Valid symbols are defined in the variable
-  ~modus-themes-weights~.  The absence of a weight means that bold will
-  be used.
+  cetera.  Valid symbols are defined in the ~modus-themes-weights~
+  variable.  The absence of a weight means that bold will be used.
 
 The ~popup~ key takes the same values as ~selection~.
 
