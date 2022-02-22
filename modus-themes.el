@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-19 10:18:54 +0200>
+;; Last-Modified: <2022-02-22 09:48:20 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -586,8 +586,8 @@ cover the blue-cyan-magenta side of the spectrum."
     (bg-region-accent . "#afafef")
     (bg-region-accent-subtle . "#efdfff")
 
-    (bg-completion . "#d0d4ff")
-    (bg-completion-subtle . "#e3eaff")
+    (bg-completion . "#def3ff")
+    (bg-completion-subtle . "#b7dbff")
 
     (bg-tab-active . "#f6f6f6")
     (bg-tab-inactive . "#b7b7b7")
@@ -832,8 +832,8 @@ symbol and the latter as a string.")
     (bg-region-accent . "#4f3d88")
     (bg-region-accent-subtle . "#240f55")
 
-    (bg-completion . "#282878")
-    (bg-completion-subtle . "#1a2854")
+    (bg-completion . "#0e194b")
+    (bg-completion-subtle . "#142f69")
 
     (bg-tab-active . "#0e0e0e")
     (bg-tab-inactive . "#424242")
