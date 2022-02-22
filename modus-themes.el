@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://gitlab.com/protesilaos/modus-themes
 ;; Version: 2.1.0
-;; Last-Modified: <2022-02-22 09:48:20 +0200>
+;; Last-Modified: <2022-02-22 09:56:55 +0200>
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -4522,7 +4522,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
       ((,class ,@(modus-themes--completion
                   'popup bg-active 'unspecified
                   bg-region 'unspecified
-                  bg-completion blue-intense-bg))))
+                  cyan-subtle-bg cyan-refine-bg))))
 ;;;;; buttons
     `(modus-themes-box-button
       ((,class ,@(modus-themes--button bg-active bg-main bg-active-accent
