@@ -58,7 +58,7 @@
                (require-theme 'modus-themes t))
     (require 'modus-themes)))
 
-(eval-when-compile
+(eval-and-compile
   (deftheme modus-operandi
     "Accessible and customizable light theme (WCAG AAA standard).
 Conforms with the highest legibility standard for color contrast
