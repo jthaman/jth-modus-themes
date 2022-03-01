@@ -58,15 +58,16 @@
                (require-theme 'modus-themes t))
     (require 'modus-themes)))
 
-(deftheme modus-operandi
-  "Accessible and customizable light theme (WCAG AAA standard).
+(eval-when-compile
+  (deftheme modus-operandi
+    "Accessible and customizable light theme (WCAG AAA standard).
 Conforms with the highest legibility standard for color contrast
 between background and foreground in any given piece of text,
 which corresponds to a minimum contrast in relative luminance of
 7:1.")
 
-(modus-themes-theme modus-operandi)
+  (modus-themes-theme modus-operandi)
 
-(provide-theme 'modus-operandi)
+  (provide-theme 'modus-operandi))
 
 ;;; modus-operandi-theme.el ends here
