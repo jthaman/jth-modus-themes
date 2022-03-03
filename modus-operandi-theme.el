@@ -56,9 +56,8 @@
                (equal (file-name-directory load-file-name)
                       (expand-file-name "themes/" data-directory))
                (require-theme 'modus-themes t))
-    (require 'modus-themes)))
+    (require 'modus-themes))
 
-(eval-and-compile
   (deftheme modus-operandi
     "Accessible and customizable light theme (WCAG AAA standard).
 Conforms with the highest legibility standard for color contrast
