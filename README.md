@@ -1,3 +1,7 @@
+# Explanation of John's Fork.
+
+Modus themes is the slowest to load package on my system, so I'm trying to remove bits that I don't use in hopes of making this run a bit faster.
+
 # Modus themes for GNU Emacs (Modus Operandi and Modus Vivendi)
 
 A pair of highly accessible themes that conform with the WCAG AAA
