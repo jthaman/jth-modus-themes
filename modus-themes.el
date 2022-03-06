@@ -66,7 +66,6 @@
 ;; The symbols are:
 ;;
 ;;     modus-themes-operandi-color-overrides       (alist)
-;;     modus-themes-vivendi-color-overrides        (alist)
 ;;
 ;; Below is the list of explicitly supported packages or face groups
 ;; (there are implicitly supported packages as well, which inherit from
